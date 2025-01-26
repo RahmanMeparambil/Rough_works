@@ -60,6 +60,15 @@ class BSTree:
                 return process(node.right,username)
         return process(self.root,username)
     
+    def is_bst(self):
+        def process(node,lbound,hbound):
+            if node is None:
+                return True
+            if (node.key < lbound) and (node.key > hbound):
+                return False
+            return process(node.left,lbound,max(node.key,hbound)) and process(node.right,min(lbound,node.key),hbound)
+        return process(self.root,-float('inf'),float('inf'))
+
     def is_balanced(self):
         def process(node):
             if node is None :
@@ -93,13 +102,6 @@ for user in users:
 print(tree)
 print(tree.find('charles_brown'))
 print(tree.is_balanced())
-
-
-                    
-        
-        
-        
-
 
 
 
