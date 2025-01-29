@@ -59,15 +59,6 @@ class BSTree:
             else:
                 return process(node.right,username)
         return process(self.root,username)
-    
-    def is_bst(self):
-        def process(node,lbound,hbound):
-            if node is None:
-                return True
-            if (node.key < lbound) and (node.key > hbound):
-                return False
-            return process(node.left,lbound,max(node.key,hbound)) and process(node.right,min(lbound,node.key),hbound)
-        return process(self.root,-float('inf'),float('inf'))
 
     def is_balanced(self):
         def process(node):
@@ -79,6 +70,28 @@ class BSTree:
             height = 1+max(height_l,height_r)
             return balanced,height
         return process(self.root)
+    
+    def list_all(self):
+        def process(node):
+            if node is None:
+                return []
+            return process(node.left)+[(node.key,node.value)]+process(node.right)
+        return process(self.root)
+    
+    def make_balanced_bst(self):
+        def process(data, lo=0, hi=None, parent=None):
+            if hi is None:
+                hi = len(data)-1
+            if lo > hi:
+                return None
+            mid = (lo+hi)//2
+            key, value = data[mid]
+            root = BSTNode(key,value)
+            root.left = process(data,lo,hi=mid-1,parent=root)
+            root.right = process(data,mid+1,hi,parent=root)
+            return root
+        self.root= process(data=self.list_all())
+        return self.root
     
     def display(self):
         def process(node,spacing=0):
@@ -102,6 +115,10 @@ for user in users:
 print(tree)
 print(tree.find('charles_brown'))
 print(tree.is_balanced())
+
+print(tree.list_all())
+print(tree.make_balanced_bst())
+print(tree)
 
 
 
