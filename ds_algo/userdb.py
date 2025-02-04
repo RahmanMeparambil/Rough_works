@@ -68,3 +68,7 @@ db.insert(User('efaanu','ramzan@gmail.com',None))
 
 print(db.find('vahman'))
 print(db)
+
+"""
+As the index of the values changes, this method will not be effective.
+"""
